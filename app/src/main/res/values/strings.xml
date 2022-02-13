@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SpotifyApi</string>
+    <string name="Text_Welcome">Welcome</string>
+    <string name="add">Add</string>
+</resources>
