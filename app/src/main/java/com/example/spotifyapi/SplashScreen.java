@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,8 @@ public class SplashScreen extends AppCompatActivity {
 
     private RequestQueue queue;
 
+    private Button btn;
+
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "com.example.spotifyapi://callback";
     private static final String CLIENT_ID = "2d7cc246bc42446d9642c2bc3c74640b";
@@ -35,6 +38,12 @@ public class SplashScreen extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
+
+        btn = (Button)findViewById(R.id.button);
+
+        btn.setOnClickListener(v->{
+            authorizeSpotify();
+        });
 
         authorizeSpotify();
 
@@ -48,7 +57,6 @@ public class SplashScreen extends AppCompatActivity {
                 new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
 
         builder.setScopes(new String[]{"streaming"});
-        builder.setShowDialog(true);
         AuthorizationRequest request = builder.build();
 
         AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
@@ -75,7 +83,7 @@ public class SplashScreen extends AppCompatActivity {
                 // Auth flow returned an error
                 case ERROR:
                     // Handle error response
-                    Log.d("ERROR",response.getError());
+                    Log.d("ERROR",response.getError()+" "+response.getType());
                     break;
 
                 // Most likely auth flow was cancelled
