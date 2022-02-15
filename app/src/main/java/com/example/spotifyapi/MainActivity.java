@@ -2,16 +2,12 @@ package com.example.spotifyapi;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.volley.RequestQueue;
 
 import java.util.ArrayList;
 
@@ -25,9 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences msharedPreferences;
 
-    private TextView userView;
-    private TextView songView;
-    private Button addBtn;
     private Button addBtn2;
     private EditText searchField;
 
@@ -55,13 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
         searchField = (EditText)findViewById(R.id.SearchText);
 
-        userView = (TextView) findViewById(R.id.user);
-        songView = (TextView) findViewById(R.id.song);
-        addBtn = (Button) findViewById(R.id.add);
+
         addBtn2 = (Button) findViewById(R.id.add2);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        userView.setText(sharedPreferences.getString("userid", "No User"));
 
         addBtn2.setOnClickListener(add2Listener);
     }
