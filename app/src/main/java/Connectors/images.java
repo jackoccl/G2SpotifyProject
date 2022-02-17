@@ -3,27 +3,28 @@ package Connectors;
 public class images {
     int height;
     int width;
-    String URL;
+    String url;
 
-    public images(int h, int w,String url){
+    public images(int h, int w,String URL){
         height=h;
         width=w;
-        URL=url;
+        url=URL;
     }
 
-    public String getURL() {
-        return URL;
-    }
 
     public void setHeight(int height) {
         this.height = height;
     }
 
-    public void setURL(String URL) {
-        this.URL = URL;
+    public void setUrl(String URL) {
+        this.url = URL;
     }
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

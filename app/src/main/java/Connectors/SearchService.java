@@ -52,6 +52,19 @@ public class SearchService {
                         try {
                             JSONObject object = itemsArray.getJSONObject(n);
                             Artist artist = gson.fromJson(object.toString(), Artist.class);
+                            JSONArray imagesArray = object.optJSONArray("images");
+                            ArrayList<images> list = new ArrayList<>();
+                            if(imagesArray != null){
+                                for(int i = 0;i<imagesArray.length();i++){
+                                    images img = gson.fromJson(imagesArray.getString(i),images.class);
+                                    System.out.println(img.getUrl());
+                                    list.add(img);
+                                }
+                            }
+
+                            artist.setImages(list);
+
+
                             artists.add(artist);
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -1,26 +1,26 @@
 package Connectors;
 
 public class Followers {
-    public String Href;
-    public int Total;
+    public String href;
+    public int total;
 
-    public Followers(String href, int tot){
-        Href = href;
-        Total = tot;
+    public Followers(String Href, int Tot){
+        href = Href;
+        total = Tot;
     }
 
     public void setHref(String href) {
-        Href = href;
+        href = href;
     }
     public void setTotal(int total){
-        Total = total;
+        total = total;
     }
 
     public int getTotal() {
-        return Total;
+        return total;
     }
 
     public String getHref() {
-        return Href;
+        return href;
     }
 }

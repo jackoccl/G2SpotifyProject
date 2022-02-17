@@ -2,6 +2,7 @@ package com.example.spotifyapi;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+import Components.FollowingCard;
 import Connectors.Artist;
 import Connectors.SearchService;
 import Connectors.Song;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Button addBtn2;
     private EditText searchField;
 
+    private FollowingCard TestCard;
 
     private SongService songService;
     private ArrayList<Song> recentlyPlayedTracks;
@@ -37,26 +40,62 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         msharedPreferences = getSharedPreferences("SPOTIFY",0);
 
-        String AUTH_TOKEN = msharedPreferences.getString("token", "");
         String USERID = msharedPreferences.getString("userid", "");
+
+
+        searchField = (EditText)findViewById(R.id.SearchText);
+        TestCard = (FollowingCard)findViewById(R.id.card_test);
+
+
+        addBtn2 = (Button) findViewById(R.id.add2);
+        addBtn2.setOnClickListener(add2Listener);
 
         textView = findViewById(R.id.tv_welcome);
         textView.setText(getString(R.string.Text_Welcome)+" "+ USERID);
 
-        searchField = (EditText)findViewById(R.id.SearchText);
+        searchField.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent keyEvent) {
+                if(keyEvent.getAction()==KeyEvent.ACTION_DOWN){
+                    switch(keyCode){
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            if(searchField.getText().length()>0){
+                                searchArtist();
+                            }
+                            return true;
 
 
-        addBtn2 = (Button) findViewById(R.id.add2);
+                    }
+                }
+                return false;
+            }
+        });
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
 
-        addBtn2.setOnClickListener(add2Listener);
     }
+    private final void searchArtist(){
+        searchService = new SearchService(getApplicationContext(),searchField.getText().toString());
+        searchService.Search(new VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                System.out.println("Success");
+                searchResults = searchService.getArtists();
+                Artist a = searchResults.get(0);
+                System.out.println(a.images);
+                if(a.id != null){
+                    TestCard.setInfo(a);
+                }
 
 
+
+            }
+        });
+    }
     private final View.OnClickListener add2Listener = v -> {
         if(searchField.getText().length()>0){
             searchService = new SearchService(getApplicationContext(),searchField.getText().toString());
@@ -65,19 +104,14 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess() {
                     System.out.println("Success");
                     searchResults = searchService.getArtists();
-
                     Artist a = searchResults.get(0);
+                    TestCard.setInfo(a);
 
-                    textView.setText("Name: "+a.getName()+" Popularity: "+a.getPopularity());
                 }
             });
 
         }
 
     };
-
-
-
-
 
 }
