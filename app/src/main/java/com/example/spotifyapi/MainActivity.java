@@ -4,9 +4,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,28 +15,29 @@ import java.util.ArrayList;
 
 import Components.FollowingCard;
 import Connectors.Artist;
+import Connectors.ArtistAdapter;
 import Connectors.SearchService;
-import Connectors.Song;
-import Connectors.SongService;
 import Connectors.VolleyCallBack;
 
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences msharedPreferences;
 
-    private Button addBtn2;
     private EditText searchField;
 
     private FollowingCard TestCard;
 
-    private SongService songService;
-    private ArrayList<Song> recentlyPlayedTracks;
+    private ListView listView;
+    private ArtistAdapter mAdapter;
+
+
     private ArrayList<Artist> searchResults;
     private SearchService searchService;
 
+    private ListView searchList;
+
     public String q = "";
 
-    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +50,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         searchField = (EditText)findViewById(R.id.SearchText);
+        searchList = (ListView)findViewById(R.id.listSearch);
         TestCard = (FollowingCard)findViewById(R.id.card_test);
 
+        searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Artist a = searchResults.get(i);
+                System.out.println(a.images);
+                if(a.id != null){
+                    TestCard.setInfo(a);
+                }
+            }
+        });
 
-        addBtn2 = (Button) findViewById(R.id.add2);
-        addBtn2.setOnClickListener(add2Listener);
 
-        textView = findViewById(R.id.tv_welcome);
-        textView.setText(getString(R.string.Text_Welcome)+" "+ USERID);
 
         searchField.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -80,37 +89,33 @@ public class MainActivity extends AppCompatActivity {
     }
     private final void searchArtist(){
         searchService = new SearchService(getApplicationContext(),searchField.getText().toString());
+        listView = findViewById(R.id.listSearch);
+
         searchService.Search(new VolleyCallBack() {
             @Override
             public void onSuccess() {
                 System.out.println("Success");
                 searchResults = searchService.getArtists();
+                mAdapter = new ArtistAdapter(getApplicationContext(),searchResults);
+
+                ViewGroup.LayoutParams lp = listView.getLayoutParams();
+                lp.height=500;
+                listView.setLayoutParams(lp);
+
+                listView.setAdapter(mAdapter);
+                /*searchResults = searchService.getArtists();
                 Artist a = searchResults.get(0);
                 System.out.println(a.images);
                 if(a.id != null){
                     TestCard.setInfo(a);
-                }
-
-
+                }*/
 
             }
         });
+
     }
-    private final View.OnClickListener add2Listener = v -> {
-        if(searchField.getText().length()>0){
-            searchService = new SearchService(getApplicationContext(),searchField.getText().toString());
-            searchService.Search(new VolleyCallBack() {
-                @Override
-                public void onSuccess() {
-                    System.out.println("Success");
-                    searchResults = searchService.getArtists();
-                    Artist a = searchResults.get(0);
-                    TestCard.setInfo(a);
-
-                }
-            });
-
-        }
+    private final View.OnClickListener add2Listener = v ->
+    {
 
     };
 

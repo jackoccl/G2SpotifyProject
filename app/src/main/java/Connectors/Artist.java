@@ -65,6 +65,7 @@ public class Artist {
     }
 
 
+
     public void setImages(ArrayList<images> list){
         images = list;
     }
