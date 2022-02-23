@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView searchList;
 
-    public String q = "";
+
 
 
     @Override
@@ -86,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+
+
     }
     private final void searchArtist(){
         searchService = new SearchService(getApplicationContext(),searchField.getText().toString());
@@ -103,6 +107,23 @@ public class MainActivity extends AppCompatActivity {
                 listView.setLayoutParams(lp);
 
                 listView.setAdapter(mAdapter);
+
+                OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        listView.setAdapter(null);
+                        lp.height=0;
+                        listView.setLayoutParams(lp);
+                        remove();
+                    }
+                };
+
+                getOnBackPressedDispatcher().addCallback(callback);
+
+
+
+
+
                 /*searchResults = searchService.getArtists();
                 Artist a = searchResults.get(0);
                 System.out.println(a.images);
