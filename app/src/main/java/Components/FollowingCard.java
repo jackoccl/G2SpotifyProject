@@ -3,6 +3,7 @@ package Components;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,15 +27,24 @@ public class FollowingCard extends CardView{
     private ImageView CoverImage;
     private ImageView tempImage;
 
+    private Artist a;
+
     public FollowingCard(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initControl(context);
+        CoverImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
 
     private void initControl(Context context) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.card_following,this);
+
 
         Name = (TextView)findViewById(R.id.textBandName);
         FollowerCount = (TextView)findViewById(R.id.followerCount);
@@ -45,6 +55,7 @@ public class FollowingCard extends CardView{
 
     public void setInfo(Artist artist){
         Name.setText(artist.getName());
+        a=artist;
         FollowerCount.setText(String.valueOf(artist.getFollowers()));
         PopularityCount.setText(String.valueOf(artist.getPopularity()));
         if(artist.images.size() > 0 ){

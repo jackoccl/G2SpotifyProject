@@ -3,4 +3,9 @@
     <string name="Text_Welcome">Welcome</string>
     <string name="add">Add</string>
     <string name="band_name"><u>Band Name</u></string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_bottom_navigation">bottom_navigation</string>
 </resources>

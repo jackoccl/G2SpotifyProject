@@ -1,4 +1,4 @@
-package Connectors;
+package Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,8 +16,10 @@ import com.example.spotifyapi.R;
 
 import java.util.ArrayList;
 
+import Connectors.Artist;
+
 public class ArtistAdapter extends ArrayAdapter<Artist> {
-    private Context mContext;
+    private final Context mContext;
     private ArrayList<Artist> artistList = new ArrayList<Artist>();
 
     public ArtistAdapter(@NonNull Context context, ArrayList<Artist> list) {
@@ -36,6 +38,11 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
         Artist currentArtist = artistList.get(position);
 
         TextView name = listItem.findViewById(R.id.textView_name);
+        TextView rating = listItem.findViewById(R.id.ratingCount);
+        TextView followers = listItem.findViewById(R.id.followerCount);
+
+        rating.setText(Integer.toString(currentArtist.getPopularity()));
+        followers.setText(Integer.toString(currentArtist.getFollowers()));
         name.setText(currentArtist.getName());
 
         ImageView image = listItem.findViewById(R.id.imageView_album);

@@ -21,11 +21,11 @@ import java.util.Map;
 
 public class SearchService {
 
-    private static final String ENDPOINT = "https://api.spotify.com/v1/search?";
+    private static String ENDPOINT = "https://api.spotify.com/v1/search?";
     private String url;
     private final String type;
     private final SharedPreferences sharedPreferences;
-    private final RequestQueue queue;
+    private final RequestQueue queue; // add or cancel network requests through request queue.
     private ArrayList<Artist> artists = new ArrayList<>();
 
     public SearchService(Context context, String q) {
@@ -40,6 +40,7 @@ public class SearchService {
     public ArrayList<Artist> getArtists(){
         return artists;
     }
+
 
     public ArrayList<Artist> Search(final VolleyCallBack callBack) {
         String endpoint = url;

@@ -3,6 +3,7 @@ package com.example.spotifyapi;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,15 +11,22 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
-import Components.FollowingCard;
+import Adapters.ArtistAdapter;
 import Connectors.Artist;
-import Connectors.ArtistAdapter;
 import Connectors.SearchService;
+import Connectors.TopItemsService;
 import Connectors.VolleyCallBack;
+import Navigation.ui.home.HomeFragment;
+import Navigation.ui.following.FollowingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,18 +34,25 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText searchField;
 
-    private FollowingCard TestCard;
+
 
     private ListView listView;
     private ArtistAdapter mAdapter;
 
 
     private ArrayList<Artist> searchResults;
+    private ArrayList<Artist> topItems;
+
     private SearchService searchService;
+    private TopItemsService itemService;
+
+    private BottomNavigationView bottomNav;
 
     private ListView searchList;
 
-
+    //TO DO
+    // BOTTOM BUTTON FOR TOP ARTISTS/ FOLLOWED
+    // VIEW PAGER
 
 
     @Override
@@ -52,7 +67,42 @@ public class MainActivity extends AppCompatActivity {
 
         searchField = (EditText)findViewById(R.id.SearchText);
         searchList = (ListView)findViewById(R.id.listSearch);
-        TestCard = (FollowingCard)findViewById(R.id.card_test);
+
+        bottomNav = findViewById(R.id.bottom_navigation);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();    
+
+
+        bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragment = null;
+
+                    switch (item.getItemId()){
+                        case R.id.navigation_home:
+                            selectedFragment =  new HomeFragment();
+                            break;
+                        case R.id.navigation_following:
+                            selectedFragment =  new FollowingFragment();
+                            break;
+
+
+                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
+                    return true;
+                }
+            });
+
+        itemService = new TopItemsService(getApplicationContext());
+        itemService.getTopItems(new VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                topItems = itemService.getArtists();
+
+
+            }
+        });
+
 
         searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -60,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 Artist a = searchResults.get(i);
                 System.out.println(a.images);
                 if(a.id != null){
-                    TestCard.setInfo(a);
                 }
             }
         });
@@ -95,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         searchService = new SearchService(getApplicationContext(),searchField.getText().toString());
         listView = findViewById(R.id.listSearch);
 
-        searchService.Search(new VolleyCallBack() {
+        searchService.Search(new VolleyCallBack() { // volley callback called async through request queue in search method
             @Override
             public void onSuccess() {
                 System.out.println("Success");
@@ -128,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 Artist a = searchResults.get(0);
                 System.out.println(a.images);
                 if(a.id != null){
-                    TestCard.setInfo(a);
+
                 }*/
 
             }
@@ -140,4 +189,6 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    private class ItemService {
+    }
 }

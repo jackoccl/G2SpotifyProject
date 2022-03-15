@@ -3,6 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#1f1f1f"></View>
     <ImageView
         android:id="@+id/imageView_album"
         android:layout_width="100dp"
@@ -12,9 +16,54 @@
         android:id="@+id/textView_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/imageView_album"
-        android:layout_margin="20dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="25dp"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/textView_followers"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_name"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@id/imageView_album"
+        android:text="Followers: "
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/followerCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ratingCount"
+        android:layout_marginLeft="100dp"
+        android:layout_toRightOf="@id/textView_followers"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/textView_rating"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_followers"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@id/imageView_album"
+        android:text="Rating: "
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/ratingCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_followers"
+        android:layout_marginLeft="100dp"
+        android:layout_toRightOf="@id/textView_rating"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
 
 </RelativeLayout>
