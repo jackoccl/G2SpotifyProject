@@ -13,10 +13,12 @@
         android:theme="@style/Theme.SpotifyApi" >
         <activity
             android:name="Navigation.bottom_navigation"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false"
             android:label="@string/title_activity_bottom_navigation" />
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity

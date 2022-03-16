@@ -53,10 +53,6 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
                     .into(image);
         }
 
-
-
-
-
         return listItem;
     }
 }

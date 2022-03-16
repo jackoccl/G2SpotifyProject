@@ -7,18 +7,21 @@
     tools:context="Navigation.ui.home.HomeFragment" >
 
     <TextView
-        android:id="@+id/text_home"
+        android:id="@+id/YourTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Home Fragment"
-        android:layout_marginEnd="8dp"
-        android:layout_centerInParent="true"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:gravity="center"
+        android:text="Your Top Artists"
+        android:layout_above="@id/TopItemPager"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/gothambook"
+        />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/TopItemPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 </RelativeLayout>

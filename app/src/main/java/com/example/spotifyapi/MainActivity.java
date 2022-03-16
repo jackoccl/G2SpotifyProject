@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView searchList;
 
     //TO DO
-    // BOTTOM BUTTON FOR TOP ARTISTS/ FOLLOWED
+    // Fragments for Followed and Top Artists
     // VIEW PAGER
 
 
@@ -62,15 +62,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         msharedPreferences = getSharedPreferences("SPOTIFY",0);
 
-        String USERID = msharedPreferences.getString("userid", "");
-
-
         searchField = (EditText)findViewById(R.id.SearchText);
         searchList = (ListView)findViewById(R.id.listSearch);
 
         bottomNav = findViewById(R.id.bottom_navigation);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();    
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
 
 
         bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -147,12 +144,11 @@ public class MainActivity extends AppCompatActivity {
         searchService.Search(new VolleyCallBack() { // volley callback called async through request queue in search method
             @Override
             public void onSuccess() {
-                System.out.println("Success");
                 searchResults = searchService.getArtists();
                 mAdapter = new ArtistAdapter(getApplicationContext(),searchResults);
 
                 ViewGroup.LayoutParams lp = listView.getLayoutParams();
-                lp.height=500;
+                lp.height=600;
                 listView.setLayoutParams(lp);
 
                 listView.setAdapter(mAdapter);
@@ -168,18 +164,6 @@ public class MainActivity extends AppCompatActivity {
                 };
 
                 getOnBackPressedDispatcher().addCallback(callback);
-
-
-
-
-
-                /*searchResults = searchService.getArtists();
-                Artist a = searchResults.get(0);
-                System.out.println(a.images);
-                if(a.id != null){
-
-                }*/
-
             }
         });
 

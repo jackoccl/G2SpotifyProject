@@ -42,7 +42,7 @@ public class TopItemsService {
 
         type = "artists";
         time_range = "medium_term";
-        limit = "10";
+        limit = "20";
         offset = "5";
 
         builtUri = Uri.parse(ENDPOINT).buildUpon()

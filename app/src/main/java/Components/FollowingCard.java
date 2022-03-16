@@ -1,14 +1,11 @@
 package Components;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
@@ -29,15 +26,18 @@ public class FollowingCard extends CardView{
 
     private Artist a;
 
-    public FollowingCard(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+    public FollowingCard(@NonNull Context context,Artist artist) {
+        super(context);
         initControl(context);
-        CoverImage.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        Name.setText(artist.getName());
+        FollowerCount.setText(String.valueOf(artist.getFollowers()));
+        PopularityCount.setText(String.valueOf(artist.getPopularity()));
+        if(artist.images.size() > 0 ){
+            Glide.with(this)
+                    .load(artist.getImages().get(0).getUrl())
+                    .centerCrop()
+                    .into(CoverImage);
+        }
     }
 
 
@@ -51,20 +51,5 @@ public class FollowingCard extends CardView{
         PopularityCount = (TextView)findViewById(R.id.ratingCount);
         CoverImage = (ImageView)findViewById(R.id.imageCover);
         tempImage=CoverImage;
-    }
-
-    public void setInfo(Artist artist){
-        Name.setText(artist.getName());
-        a=artist;
-        FollowerCount.setText(String.valueOf(artist.getFollowers()));
-        PopularityCount.setText(String.valueOf(artist.getPopularity()));
-        if(artist.images.size() > 0 ){
-            Glide.with(this)
-                    .load(artist.getImages().get(0).getUrl())
-                    .centerCrop()
-                    .into(CoverImage);
-        }
-
-
     }
 }

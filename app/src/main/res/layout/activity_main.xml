@@ -29,6 +29,7 @@
 
     <ListView
         android:id="@+id/listSearch"
+        android:elevation="02dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/SearchText"
@@ -36,6 +37,8 @@
 
     <FrameLayout
         android:id="@+id/fragment_container"
+        app:layout_constraintBottom_toBottomOf="@id/listSearch"
+        android:elevation="0dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
