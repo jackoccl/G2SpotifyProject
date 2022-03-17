@@ -15,7 +15,7 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
-import Connectors.User;
+import Connectors.Classes.User;
 import Connectors.UserService;
 
 
@@ -56,7 +56,7 @@ public class SplashScreen extends AppCompatActivity {
         AuthorizationRequest.Builder builder =
                 new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
 
-        builder.setScopes(new String[]{"user-top-read,streaming"});
+        builder.setScopes(new String[]{"user-top-read,streaming,user-follow-read"});
         AuthorizationRequest request = builder.build();
 
         AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);

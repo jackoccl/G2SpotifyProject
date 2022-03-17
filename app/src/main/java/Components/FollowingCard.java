@@ -11,7 +11,7 @@ import androidx.cardview.widget.CardView;
 import com.bumptech.glide.Glide;
 import com.example.spotifyapi.R;
 
-import Connectors.Artist;
+import Connectors.Classes.Artist;
 
 public class FollowingCard extends CardView{
 

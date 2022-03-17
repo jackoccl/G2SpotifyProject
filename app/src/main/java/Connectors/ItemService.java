@@ -19,10 +19,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TopItemsService {
-    private static String ENDPOINT = "\thttps://api.spotify.com/v1/me/top/artists?";
+import Connectors.Classes.Artist;
+import Connectors.Classes.VolleyCallBack;
+import Connectors.Classes.images;
+
+public class ItemService {
+    private static String ENDPOINT = "https://api.spotify.com/v1/me/top/artists?";
     public Uri builtUri;
-    private String url;
     private final String type;
     private final String time_range;
     private final String offset;
@@ -36,7 +39,7 @@ public class TopItemsService {
 
     private ArrayList<Artist> artists = new ArrayList<>();
 
-    public TopItemsService(Context context) {
+    public ItemService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY",0);
         queue = Volley.newRequestQueue(context);
 

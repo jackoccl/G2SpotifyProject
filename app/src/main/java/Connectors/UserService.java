@@ -10,6 +10,9 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.Map;
 
+import Connectors.Classes.User;
+import Connectors.Classes.VolleyCallBack;
+
 public class UserService {
     private static final String ENDPOINT = "https://api.spotify.com/v1/me";
     private SharedPreferences msharedPreferences;

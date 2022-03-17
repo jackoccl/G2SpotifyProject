@@ -14,7 +14,7 @@ import com.example.spotifyapi.R;
 
 import java.util.ArrayList;
 
-import Connectors.Artist;
+import Connectors.Classes.Artist;
 
 public class ArtistPagerAdapter extends RecyclerView.Adapter<ArtistPagerAdapter.ViewHolder> {
 

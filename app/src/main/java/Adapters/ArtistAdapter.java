@@ -16,7 +16,7 @@ import com.example.spotifyapi.R;
 
 import java.util.ArrayList;
 
-import Connectors.Artist;
+import Connectors.Classes.Artist;
 
 public class ArtistAdapter extends ArrayAdapter<Artist> {
     private final Context mContext;
@@ -27,6 +27,7 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
         mContext = context;
         artistList = list;
     }
+
 
     @NonNull
     @Override

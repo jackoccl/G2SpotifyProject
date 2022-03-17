@@ -1,4 +1,4 @@
-package Connectors;
+package Connectors.Classes;
 
 public class User {
 

@@ -1,27 +1,58 @@
-<RelativeLayout
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Navigation.ui.home.HomeFragment" >
-
-    <TextView
-        android:id="@+id/YourTop"
+    tools:context="Navigation.ui.home.HomeFragment"
+    android:orientation="vertical">
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Your Top Artists"
-        android:layout_above="@id/TopItemPager"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        android:layout_margin="10dp"
-        android:fontFamily="@font/gothambook"
-        />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/TopItemPager"
+        android:fillViewport="true">
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
-</RelativeLayout>
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/YourTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Your Top Artists"
+            android:layout_above="@id/TopItemPager"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/gothambook"
+            />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/TopItemPager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+             />
+        <TextView
+            android:id="@+id/YourTrending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Trending Artists"
+            android:layout_above="@id/TopItemPager"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/gothambook"
+            />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/TopItemPager2"
+            android:layout_below="@id/TopItemPager"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

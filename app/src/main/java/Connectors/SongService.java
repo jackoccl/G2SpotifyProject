@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import Connectors.Classes.Song;
+import Connectors.Classes.VolleyCallBack;
+
 public class SongService {
     private ArrayList<Song> songs = new ArrayList<>();
     private SharedPreferences sharedPreferences;

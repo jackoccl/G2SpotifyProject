@@ -19,6 +19,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import Connectors.Classes.Artist;
+import Connectors.Classes.VolleyCallBack;
+import Connectors.Classes.images;
+
 public class SearchService {
 
     private static String ENDPOINT = "https://api.spotify.com/v1/search?";

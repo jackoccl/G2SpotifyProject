@@ -2,15 +2,10 @@ package com.example.spotifyapi;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -21,12 +16,12 @@ import com.google.android.material.navigation.NavigationBarView;
 import java.util.ArrayList;
 
 import Adapters.ArtistAdapter;
-import Connectors.Artist;
+import Connectors.Classes.Artist;
+import Connectors.Classes.VolleyCallBack;
 import Connectors.SearchService;
-import Connectors.TopItemsService;
-import Connectors.VolleyCallBack;
-import Navigation.ui.home.HomeFragment;
 import Navigation.ui.following.FollowingFragment;
+import Navigation.ui.home.HomeFragment;
+import Navigation.ui.searching.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,39 +30,68 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchField;
 
 
-
-    private ListView listView;
     private ArtistAdapter mAdapter;
 
 
+
     private ArrayList<Artist> searchResults;
-    private ArrayList<Artist> topItems;
+    private ArrayList<Artist> topArtistsArray;
+    private ArrayList<Artist> followedArtistsArray;
 
     private SearchService searchService;
-    private TopItemsService itemService;
+    private Connectors.ItemService itemService;
+    private Connectors.FollowingService followingService;
 
     private BottomNavigationView bottomNav;
 
-    private ListView searchList;
-
+    private Bundle bundle;
     //TO DO
     // Fragments for Followed and Top Artists
     // VIEW PAGER
 
+    protected void intialApiCalls(VolleyCallBack callBack){ // DO THIS BETTER?
+        itemService.getTopItems(new VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                topArtistsArray = itemService.getArtists();
+                followingService.getFollowedArtists(new VolleyCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        followedArtistsArray = followingService.getFollowedArtists();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(bundle,followingService,itemService)).commit();
+
+                    }
+                });
+            }
+        });
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         setContentView(R.layout.activity_main);
         msharedPreferences = getSharedPreferences("SPOTIFY",0);
-
-        searchField = (EditText)findViewById(R.id.SearchText);
-        searchList = (ListView)findViewById(R.id.listSearch);
-
+        bundle = new Bundle();
         bottomNav = findViewById(R.id.bottom_navigation);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+        itemService = new Connectors.ItemService(getApplicationContext());
+        followingService = new Connectors.FollowingService(getApplicationContext());
+
+        intialApiCalls(new VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(bundle,followingService,itemService)).commit();
+            }
+        });
+
+
+
+
+
 
 
         bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -77,11 +101,15 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()){
                         case R.id.navigation_home:
-                            selectedFragment =  new HomeFragment();
+                            selectedFragment =  new HomeFragment(bundle,followingService,itemService);
                             break;
                         case R.id.navigation_following:
-                            selectedFragment =  new FollowingFragment();
+                            selectedFragment =  new FollowingFragment(bundle,followingService);
                             break;
+                        case R.id.navigation_search:
+                            selectedFragment =  new SearchFragment();
+                            break;
+
 
 
                     }
@@ -90,29 +118,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-        itemService = new TopItemsService(getApplicationContext());
-        itemService.getTopItems(new VolleyCallBack() {
-            @Override
-            public void onSuccess() {
-                topItems = itemService.getArtists();
-
-
-            }
-        });
-
-
-        searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Artist a = searchResults.get(i);
-                System.out.println(a.images);
-                if(a.id != null){
-                }
-            }
-        });
 
 
 
+
+
+
+
+
+/*
         searchField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent keyEvent) {
@@ -131,47 +145,54 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+*/
 
 
 
 
     }
-    private final void searchArtist(){
-        searchService = new SearchService(getApplicationContext(),searchField.getText().toString());
-        listView = findViewById(R.id.listSearch);
 
-        searchService.Search(new VolleyCallBack() { // volley callback called async through request queue in search method
-            @Override
-            public void onSuccess() {
-                searchResults = searchService.getArtists();
-                mAdapter = new ArtistAdapter(getApplicationContext(),searchResults);
-
-                ViewGroup.LayoutParams lp = listView.getLayoutParams();
-                lp.height=600;
-                listView.setLayoutParams(lp);
-
-                listView.setAdapter(mAdapter);
-
-                OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-                        listView.setAdapter(null);
-                        lp.height=0;
-                        listView.setLayoutParams(lp);
-                        remove();
-                    }
-                };
-
-                getOnBackPressedDispatcher().addCallback(callback);
-            }
-        });
-
-    }
     private final View.OnClickListener add2Listener = v ->
     {
 
     };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        /*
+        String clientid = msharedPreferences.getString("CLIENT_ID","");
+        System.out.println(clientid);
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder(msharedPreferences.getString("CLIENT_ID",""))
+                        .setRedirectUri(msharedPreferences.getString("REDIRECT_URI",""))
+                        .showAuthView(true)
+                        .build();
+
+        SpotifyAppRemote.connect(this, connectionParams,
+                new Connector.ConnectionListener() {
+
+                    @Override
+                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                        mSpotifyAppRemote = spotifyAppRemote;
+                        Log.d("MainActivity", "Connected! Yay!");
+
+                        // Now you can start interacting with App Remote
+                        connected();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.e("MainActivity", throwable.getMessage(), throwable);
+
+                        // Something went wrong when attempting to connect! Handle errors here
+                    }
+                });
+*/
+    }
+
+    private void connected() {
+    }
 
     private class ItemService {
     }
