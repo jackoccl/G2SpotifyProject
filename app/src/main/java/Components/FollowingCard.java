@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
-import com.example.spotifyapi.R;
+import com.example.project.R;
 
 import Connectors.Classes.Artist;
 

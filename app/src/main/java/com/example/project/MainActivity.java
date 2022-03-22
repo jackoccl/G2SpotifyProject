@@ -1,4 +1,4 @@
-package com.example.spotifyapi;
+package com.example.project;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

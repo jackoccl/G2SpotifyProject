@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
-import com.example.spotifyapi.R;
+import com.example.project.R;
 
 import java.util.ArrayList;
 

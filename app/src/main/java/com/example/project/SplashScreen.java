@@ -1,4 +1,4 @@
-package com.example.spotifyapi;
+package com.example.project;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -56,10 +56,11 @@ public class SplashScreen extends AppCompatActivity {
         AuthorizationRequest.Builder builder =
                 new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
 
-        builder.setScopes(new String[]{"user-top-read,streaming,user-follow-read"});
+        builder.setScopes(new String[]{"app-remote-control"});
         AuthorizationRequest request = builder.build();
 
         AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
+        //AuthorizationClient.openLoginInBrowser(this,request);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -83,7 +84,8 @@ public class SplashScreen extends AppCompatActivity {
                 // Auth flow returned an error
                 case ERROR:
                     // Handle error response
-                    Log.d("ERROR",response.getError()+" "+response.getType());
+                    System.out.println(response.getType());
+                    Log.d("ERROR",response.getError());
                     break;
 
                 // Most likely auth flow was cancelled

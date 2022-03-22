@@ -10,7 +10,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.spotifyapi.R;
+import com.example.project.R;
 
 
 public class SearchFragment extends Fragment {

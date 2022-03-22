@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.spotifyapi.R;
+import com.example.project.R;
 
 import java.util.ArrayList;
 
