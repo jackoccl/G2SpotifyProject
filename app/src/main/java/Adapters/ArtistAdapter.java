@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.example.project.R;
@@ -17,17 +18,21 @@ import com.example.project.R;
 import java.util.ArrayList;
 
 import Connectors.Classes.Artist;
+import Navigation.ui.artist.ArtistFragment;
 
 public class ArtistAdapter extends ArrayAdapter<Artist> {
     private final Context mContext;
     private ArrayList<Artist> artistList = new ArrayList<Artist>();
+    private FragmentManager manager;
 
     public ArtistAdapter(@NonNull Context context, ArrayList<Artist> list) {
         super(context, 0 , list);
         mContext = context;
         artistList = list;
     }
-
+    public void addManager(FragmentManager fm){
+        manager=fm;
+    }
 
     @NonNull
     @Override
@@ -53,6 +58,13 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
                     .centerCrop()
                     .into(image);
         }
+
+        listItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manager.beginTransaction().replace(R.id.fragment_container,new ArtistFragment(currentArtist)).addToBackStack(null).commit();
+            }
+        });
 
         return listItem;
     }

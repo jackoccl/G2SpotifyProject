@@ -26,7 +26,7 @@ public class FollowingFragment extends Fragment {
     Bundle bundle;
     FollowingService followingService;
     SwipeRefreshLayout swipeContainer;
-
+    ArtistAdapter followingAdapter;
     public FollowingFragment(Bundle Bundle, FollowingService FollowingService) {
         bundle = Bundle;
         followingService = FollowingService;
@@ -47,7 +47,6 @@ public class FollowingFragment extends Fragment {
                     public void onSuccess() {
                         followedArtistsArray = followingService.getFollowedArtists();
                         System.out.println(followedArtistsArray.get(0).name);
-                        followingList.setAdapter(new ArtistAdapter(getContext(),followedArtistsArray));
                         swipeContainer.setRefreshing(false);
                     }
                 });
@@ -64,7 +63,9 @@ public class FollowingFragment extends Fragment {
         super.onStart();
         followingList = getView().findViewById(R.id.listViewFollowing);
         followedArtistsArray = followingService.getFollowedArtists();
-        followingList.setAdapter(new ArtistAdapter(getContext(),followedArtistsArray));
+        followingAdapter = new ArtistAdapter(getContext(), followedArtistsArray);
+        followingAdapter.addManager(getParentFragmentManager());
+        followingList.setAdapter(followingAdapter);
     }
 
     @Override

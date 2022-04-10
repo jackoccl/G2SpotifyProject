@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,15 +16,21 @@ import com.example.project.R;
 import java.util.ArrayList;
 
 import Connectors.Classes.Artist;
+import Navigation.ui.artist.ArtistFragment;
 
 public class ArtistPagerAdapter extends RecyclerView.Adapter<ArtistPagerAdapter.ViewHolder> {
 
     ArrayList<Artist> TopItemArtists = new ArrayList<>();
+    FragmentManager manager;
 
     public ArtistPagerAdapter(ArrayList<Artist> artists){
         TopItemArtists = artists;
 
     }
+    public void addManager(FragmentManager fm){
+        manager=fm;
+    }
+
 
 
     @NonNull
@@ -46,6 +53,12 @@ public class ArtistPagerAdapter extends RecyclerView.Adapter<ArtistPagerAdapter.
                     .centerCrop()
                     .into(holder.CoverImage);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                manager.beginTransaction().replace(R.id.fragment_container,new ArtistFragment(artist)).addToBackStack(null).commit();
+            }
+        });
     }
 
     @Override
@@ -67,7 +80,10 @@ public class ArtistPagerAdapter extends RecyclerView.Adapter<ArtistPagerAdapter.
             FollowerCount = (TextView)itemView.findViewById(R.id.followerCount);
             PopularityCount = (TextView)itemView.findViewById(R.id.ratingCount);
             CoverImage = (ImageView)itemView.findViewById(R.id.imageCover);
+
+
         }
+
     }
 }
 

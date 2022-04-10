@@ -35,7 +35,8 @@ public class HomeFragment extends Fragment {
     ArrayList<Artist> FollowedArtistArray= new ArrayList<Artist>();
 
     Bundle bundle;
-
+    private ArtistPagerAdapter TopItemsAdapter;
+    private ArtistPagerAdapter FollowedItemsAdapter;
 
 
     public HomeFragment(Bundle Bundle, FollowingService FollowingService, ItemService ItemService) {
@@ -61,8 +62,16 @@ public class HomeFragment extends Fragment {
         Greeting = (TextView)rootView.findViewById(R.id.YourTop);
         TopItemPager = (ViewPager2)rootView.findViewById(R.id.TopItemPager);
 
-        TopItemPager.setAdapter(new ArtistPagerAdapter(TopItemsArray));
-        TopItemPager2.setAdapter(new ArtistPagerAdapter(FollowedArtistArray));
+        TopItemsAdapter = new ArtistPagerAdapter(TopItemsArray);
+        TopItemsAdapter.addManager(getParentFragmentManager());
+
+        FollowedItemsAdapter = new ArtistPagerAdapter(FollowedArtistArray);
+        FollowedItemsAdapter.addManager(getParentFragmentManager());
+
+        TopItemPager.setAdapter(TopItemsAdapter);
+        TopItemPager2.setAdapter(FollowedItemsAdapter);
+
+
 
         TopItemPager.setClipToPadding(false);
         TopItemPager.setPadding(0,0,0,0);
@@ -81,13 +90,12 @@ public class HomeFragment extends Fragment {
                 TopItemPager.startAnimation(fadeIn);
                 */
 
+        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ArtistFragment()).commit();
 
         followingService.getFollowedArtists(new VolleyCallBack() {
             @Override
             public void onSuccess() {
                 FollowedArtistArray = followingService.getFollowedArtists();
-
-
             }
         });
 

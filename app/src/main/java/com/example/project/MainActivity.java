@@ -70,9 +70,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
         setContentView(R.layout.activity_main);
         msharedPreferences = getSharedPreferences("SPOTIFY",0);
         bundle = new Bundle();
@@ -87,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(bundle,followingService,itemService)).commit();
             }
         });
-
 
 
 
@@ -111,18 +107,11 @@ public class MainActivity extends AppCompatActivity {
                             break;
 
 
-
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
                     return true;
                 }
             });
-
-
-
-
-
-
 
 
 
@@ -157,43 +146,5 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        /*
-        String clientid = msharedPreferences.getString("CLIENT_ID","");
-        System.out.println(clientid);
-        ConnectionParams connectionParams =
-                new ConnectionParams.Builder(msharedPreferences.getString("CLIENT_ID",""))
-                        .setRedirectUri(msharedPreferences.getString("REDIRECT_URI",""))
-                        .showAuthView(true)
-                        .build();
 
-        SpotifyAppRemote.connect(this, connectionParams,
-                new Connector.ConnectionListener() {
-
-                    @Override
-                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-                        mSpotifyAppRemote = spotifyAppRemote;
-                        Log.d("MainActivity", "Connected! Yay!");
-
-                        // Now you can start interacting with App Remote
-                        connected();
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Log.e("MainActivity", throwable.getMessage(), throwable);
-
-                        // Something went wrong when attempting to connect! Handle errors here
-                    }
-                });
-*/
-    }
-
-    private void connected() {
-    }
-
-    private class ItemService {
-    }
 }

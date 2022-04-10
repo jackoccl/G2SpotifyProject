@@ -12,21 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SpotifyApi">
         <activity
-            android:name="com.example.project.LoginActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <!--
         <activity
             android:name="Navigation.bottom_navigation"
             android:exported="false"
             android:label="@string/title_activity_bottom_navigation"
-            android:windowSoftInputMode="adjustPan" />!-->
+            android:windowSoftInputMode="adjustPan" />!
+        -->
         <activity
-            android:name="com.example.project.MainActivity"
+            android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.example.project.SplashScreen"
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

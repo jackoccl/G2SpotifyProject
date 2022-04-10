@@ -39,17 +39,22 @@ public class FollowingService {
     public FollowingService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY",0);
         queue = Volley.newRequestQueue(context);
-        type = "artist";
 
-        builtUri = Uri.parse(endpoint).buildUpon()
-                .appendQueryParameter("type",type)
-                .build();
+    }
+
+    public void followArtist(VolleyCallBack callback){
+
     }
 
     /**
      * @param callBack
      */
     public ArrayList<Artist> getFollowedArtists (VolleyCallBack callBack){
+        type = "artist";
+        builtUri = Uri.parse(endpoint).buildUpon()
+                .appendQueryParameter("type",type)
+                .build();
+
         followedArtists = new ArrayList<>();
         String endpoint = builtUri.toString();
 
