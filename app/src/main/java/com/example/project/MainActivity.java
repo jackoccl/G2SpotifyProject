@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import Adapters.ArtistAdapter;
 import Connectors.Classes.Artist;
 import Connectors.Classes.VolleyCallBack;
+import Connectors.FollowingService;
+import Connectors.ItemService;
 import Connectors.SearchService;
 import Navigation.ui.following.FollowingFragment;
 import Navigation.ui.home.HomeFragment;
@@ -58,13 +60,20 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         followedArtistsArray = followingService.getFollowedArtists();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(bundle,followingService,itemService)).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(bundle)).commit();
 
                     }
                 });
             }
         });
 
+    }
+
+    public FollowingService getFollowingService(){
+        return followingService;
+    }
+    public ItemService getItemService(){
+        return itemService;
     }
 
     @Override
@@ -81,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         intialApiCalls(new VolleyCallBack() {
             @Override
             public void onSuccess() {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(bundle,followingService,itemService)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(bundle)).commit();
             }
         });
 
@@ -97,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()){
                         case R.id.navigation_home:
-                            selectedFragment =  new HomeFragment(bundle,followingService,itemService);
+                            selectedFragment =  new HomeFragment(bundle);
                             break;
                         case R.id.navigation_following:
-                            selectedFragment =  new FollowingFragment(bundle,followingService);
+                            selectedFragment =  new FollowingFragment(bundle);
                             break;
                         case R.id.navigation_search:
                             selectedFragment =  new SearchFragment();

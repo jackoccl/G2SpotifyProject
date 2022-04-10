@@ -10,26 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.project.MainActivity;
 import com.example.project.R;
 
-import java.util.ArrayList;
-
 import Adapters.ArtistAdapter;
-import Connectors.Classes.Artist;
 import Connectors.Classes.VolleyCallBack;
 import Connectors.FollowingService;
 
 
 public class FollowingFragment extends Fragment {
     ListView followingList;
-    ArrayList<Artist> followedArtistsArray = new ArrayList<>();
     Bundle bundle;
     FollowingService followingService;
     SwipeRefreshLayout swipeContainer;
     ArtistAdapter followingAdapter;
-    public FollowingFragment(Bundle Bundle, FollowingService FollowingService) {
+    public FollowingFragment(Bundle Bundle)  {
         bundle = Bundle;
-        followingService = FollowingService;
+
     }
 
 
@@ -37,6 +34,7 @@ public class FollowingFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_following,container,false);
+        followingService = ((MainActivity)getActivity()).getFollowingService();
 
         swipeContainer = rootView.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -45,8 +43,6 @@ public class FollowingFragment extends Fragment {
                 followingService.getFollowedArtists(new VolleyCallBack() {
                     @Override
                     public void onSuccess() {
-                        followedArtistsArray = followingService.getFollowedArtists();
-                        System.out.println(followedArtistsArray.get(0).name);
                         swipeContainer.setRefreshing(false);
                     }
                 });
@@ -62,10 +58,10 @@ public class FollowingFragment extends Fragment {
     public void onStart() {
         super.onStart();
         followingList = getView().findViewById(R.id.listViewFollowing);
-        followedArtistsArray = followingService.getFollowedArtists();
-        followingAdapter = new ArtistAdapter(getContext(), followedArtistsArray);
+        followingAdapter = new ArtistAdapter(getContext(),followingService.getFollowedArtists());
         followingAdapter.addManager(getParentFragmentManager());
         followingList.setAdapter(followingAdapter);
+
     }
 
     @Override

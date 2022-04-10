@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.project.MainActivity;
 import com.example.project.R;
 
 import java.util.ArrayList;
@@ -39,17 +40,16 @@ public class HomeFragment extends Fragment {
     private ArtistPagerAdapter FollowedItemsAdapter;
 
 
-    public HomeFragment(Bundle Bundle, FollowingService FollowingService, ItemService ItemService) {
+    public HomeFragment(Bundle Bundle) {
         bundle=Bundle;
-        topItemsService = ItemService;
-        followingService = FollowingService;
 
     }
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
-
+        followingService = ((MainActivity)getActivity()).getFollowingService();
+        topItemsService  = ((MainActivity)getActivity()).getItemService();
         View rootView = inflater.inflate(R.layout.fragment_home,container,false);
 
         TopItemsArray = topItemsService.getArtists();
