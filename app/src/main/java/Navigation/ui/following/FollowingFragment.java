@@ -43,6 +43,8 @@ public class FollowingFragment extends Fragment {
                 followingService.getFollowedArtists(new VolleyCallBack() {
                     @Override
                     public void onSuccess() {
+                        followingAdapter = new ArtistAdapter(getContext(),followingService.getFollowedArtists());
+                        followingList.setAdapter(followingAdapter);
                         swipeContainer.setRefreshing(false);
                     }
                 });

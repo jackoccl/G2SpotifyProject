@@ -62,7 +62,7 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
         listItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                manager.beginTransaction().replace(R.id.fragment_container,new ArtistFragment(currentArtist)).addToBackStack(null).commit();
+                manager.beginTransaction().replace(R.id.fragment_container,new ArtistFragment(currentArtist),"artist").addToBackStack(null).commit();
             }
         });
 

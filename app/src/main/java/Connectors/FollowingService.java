@@ -24,7 +24,7 @@ import Connectors.Classes.VolleyCallBack;
 import Connectors.Classes.images;
 
 public class FollowingService {
-    private static String endpoint = "https://api.spotify.com/v1/me/following?";
+    private String endpoint;
     public Uri builtUri;
     private String type;
     private final SharedPreferences sharedPreferences;
@@ -47,9 +47,59 @@ public class FollowingService {
     }
 
     /**
+     * @param id
      * @param callBack
      */
+    public void followArtistById(String id, VolleyCallBack callBack){
+        endpoint = "https://api.spotify.com/v1/me/following?";
+        type = "artist";
+        builtUri = Uri.parse(endpoint).buildUpon()
+                .appendQueryParameter("type",type)
+                .appendQueryParameter("ids",id)
+                .build();
+        System.out.println(builtUri.toString());
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT,builtUri.toString(),null,response->{
+
+        },error -> {
+
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
+        callBack.onSuccess();
+    }
+    public void unfollowArtistById(String id,VolleyCallBack callBack){
+        endpoint = "https://api.spotify.com/v1/me/following?";
+        type = "artist";
+        builtUri = Uri.parse(endpoint).buildUpon()
+                .appendQueryParameter("type",type)
+                .appendQueryParameter("ids",id)
+                .build();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE,builtUri.toString(),null,response->{
+        },error -> {
+
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        } ;
+        queue.add(jsonObjectRequest);
+        callBack.onSuccess();
+    }
     public ArrayList<Artist> getFollowedArtists (VolleyCallBack callBack){
+        endpoint = "https://api.spotify.com/v1/me/following?";
         type = "artist";
         builtUri = Uri.parse(endpoint).buildUpon()
                 .appendQueryParameter("type",type)

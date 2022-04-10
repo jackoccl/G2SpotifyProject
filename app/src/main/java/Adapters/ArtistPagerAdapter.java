@@ -56,7 +56,8 @@ public class ArtistPagerAdapter extends RecyclerView.Adapter<ArtistPagerAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                manager.beginTransaction().replace(R.id.fragment_container,new ArtistFragment(artist)).addToBackStack(null).commit();
+                manager.beginTransaction().replace(R.id.fragment_container,new ArtistFragment(artist),"artist").addToBackStack(null).commit();
+
             }
         });
     }
@@ -67,11 +68,11 @@ public class ArtistPagerAdapter extends RecyclerView.Adapter<ArtistPagerAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView Name;
-        private TextView FollowerCount;
-        private TextView PopularityCount;
+        private final TextView Name;
+        private final TextView FollowerCount;
+        private final TextView PopularityCount;
 
-        private ImageView CoverImage;
+        private final ImageView CoverImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

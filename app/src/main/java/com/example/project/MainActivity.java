@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public SearchService getSearchService() { return searchService; }
     public FollowingService getFollowingService(){
         return followingService;
     }
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         itemService = new Connectors.ItemService(getApplicationContext());
         followingService = new Connectors.FollowingService(getApplicationContext());
+        searchService = new Connectors.SearchService(getApplicationContext());
 
         intialApiCalls(new VolleyCallBack() {
             @Override
@@ -121,33 +123,6 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
-
-
-
-/*
-        searchField.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent keyEvent) {
-                if(keyEvent.getAction()==KeyEvent.ACTION_DOWN){
-                    switch(keyCode){
-                        case KeyEvent.KEYCODE_DPAD_CENTER:
-                        case KeyEvent.KEYCODE_ENTER:
-                            if(searchField.getText().length()>0){
-                                searchArtist();
-                            }
-                            return true;
-
-
-                    }
-                }
-                return false;
-            }
-        });
-*/
-
-
-
-
     }
 
     private final View.OnClickListener add2Listener = v ->

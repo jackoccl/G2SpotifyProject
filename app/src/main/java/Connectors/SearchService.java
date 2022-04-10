@@ -27,18 +27,14 @@ public class SearchService {
 
     private static String ENDPOINT = "https://api.spotify.com/v1/search?";
     private String url;
-    private final String type;
-    private final SharedPreferences sharedPreferences;
-    private final RequestQueue queue; // add or cancel network requests through request queue.
+    private String type;
+    private SharedPreferences sharedPreferences;
+    Context mContext;
+    private RequestQueue queue; // add or cancel network requests through request queue.
     private ArrayList<Artist> artists = new ArrayList<>();
 
-    public SearchService(Context context, String q) {
-        q = q.replaceAll(" ","%20");
-        sharedPreferences = context.getSharedPreferences("SPOTIFY",0);
-        queue = Volley.newRequestQueue(context);
-
-        type = "artist";
-        url = String.format(ENDPOINT+"q=%s&type=%s",q, type);
+    public SearchService(Context context) {
+        mContext=context;
     }
 
     public ArrayList<Artist> getArtists(){
@@ -46,14 +42,24 @@ public class SearchService {
     }
 
 
-    public ArrayList<Artist> Search(final VolleyCallBack callBack) {
+    public ArrayList<Artist> Search(String q,VolleyCallBack callBack) {
+        artists.clear();
+        type = "artist";
+        q = q.replaceAll(" ","%20");
+        url = String.format(ENDPOINT+"q=%s&type=%s&limit=5",q, type);
         String endpoint = url;
+
+        sharedPreferences = mContext.getSharedPreferences("SPOTIFY",0);
+        queue = Volley.newRequestQueue(mContext);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
+                    System.out.println("T");
                     Gson gson = new Gson();
                     JSONObject artistsObj = response.optJSONObject("artists");
                     JSONArray itemsArray = artistsObj.optJSONArray("items");
                     for(int n=0;n<itemsArray.length();n++){
+
                         try {
                             JSONObject object = itemsArray.getJSONObject(n);
                             Artist artist = gson.fromJson(object.toString(), Artist.class);
@@ -62,20 +68,16 @@ public class SearchService {
                             if(imagesArray != null){
                                 for(int i = 0;i<imagesArray.length();i++){
                                     images img = gson.fromJson(imagesArray.getString(i),images.class);
-                                    System.out.println(img.getUrl());
                                     list.add(img);
                                 }
                             }
 
                             artist.setImages(list);
-
-
                             artists.add(artist);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-
                     callBack.onSuccess();
 
                 }, error -> {
