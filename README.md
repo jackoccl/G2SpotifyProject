@@ -5,23 +5,23 @@
 A WIP java android application that allows you to interact with Spotify's android SDK.
 
 Currently Implemented Features
-Home page
+- Home page
   - Recycler Views showing top artists and followed artists
-Search page
+- Search page
   - Search api using a debounced edit text that populates a list view
-Following Page
+- Following Page
   - Displays followed artists with swipe down to refresh functionality
-Artist Page
+- Artist Page
   - Follow and Unfollow buttons
 
 Too be implemented
-General
+- General
   - Play top songs (Spotify SDK remote feature)
-Home Page
+- Home Page
   - More views of different information
-Search Page
+- Search Page
   - Revamped search to make it feel better
-Artist Page
+- Artist Page
   - Layout TBD
   - Show top songs/albums
 
