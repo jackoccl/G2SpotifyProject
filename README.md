@@ -1,5 +1,7 @@
 # Mobile_Final_SpotifyClone
 ![image](https://user-images.githubusercontent.com/71997869/163458135-2f57cbc4-e057-448a-b44e-6feb184df01a.png)
+
+
 A WIP java android application that allows you to interact with Spotify's android SDK.
 
 Currently Implemented Features
